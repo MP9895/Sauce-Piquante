@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const mongooseError = require('mongoose-error');
 const path = require('path');
 const helmet = require('helmet');
 
@@ -20,8 +19,6 @@ require('./config/db')();
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
       next();
   });
-
-mongoose.plugin(mongooseError);
 
 app.use(express.json());
 
