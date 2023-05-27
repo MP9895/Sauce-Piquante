@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user');
+const mongooseError = require('mongoose-error');
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -11,9 +12,9 @@ exports.signup = (req, res, next) => {
         });
         user.save()
           .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-          .catch(error => res.status(400).json({ error }));
+          .catch(mongooseError => res.status(400).json({ mongooseError }));
       })
-      .catch(error => res.status(500).json({ error }));
+      .catch(mongooseError => res.status(500).json({ mongooseError }));
 };
 
 exports.login = (req, res, next) => {
@@ -36,7 +37,7 @@ exports.login = (req, res, next) => {
                         )
                     });
                 })
-                .catch(error => res.status(500).json({ error }));
+                .catch(mongooseError => res.status(500).json({ mongooseError }));
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(mongooseError => res.status(500).json({ mongooseError }));
 };

@@ -1,17 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const mongooseError = require('mongoose-error');
 const path = require('path');
 const helmet = require('helmet');
+
+//import des routes
 const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauce');
 
+//création de l'application
 const app = express();
 
-mongoose.connect('mongodb+srv://mp95:i205gEyDjI3Gb40b@piquante.ubdissx.mongodb.net/test',
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+require('./config/db')();
 
   app.use((req, res, next) => 
   {
@@ -21,11 +21,15 @@ mongoose.connect('mongodb+srv://mp95:i205gEyDjI3Gb40b@piquante.ubdissx.mongodb.n
       next();
   });
 
+mongoose.plugin(mongooseError);
+
 app.use(express.json());
+
+app.use(helmet());
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use(helmet());
 
 module.exports = app;

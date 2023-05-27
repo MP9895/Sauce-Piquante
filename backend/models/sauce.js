@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//schema
 const sauceSchema = mongoose.Schema({
     name: { type: String, required: true },
     manufacturer: { type: String, required: true },
@@ -14,4 +15,5 @@ const sauceSchema = mongoose.Schema({
     usersDisliked: [String] ,
 });
 
+//export
 module.exports = mongoose.model('Sauce', sauceSchema);
