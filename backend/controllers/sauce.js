@@ -27,7 +27,7 @@ exports.modifySauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
         // Vérifier si l'utilisateur est autorisé à modifier la sauce
-        if (sauce.userId !== req.userId)
+        if (sauce.userId !== req.auth.userId)
         {
           return res.status(401).json({ message: 'Non autorisé à modifier cette sauce.' });
         }
@@ -51,7 +51,8 @@ exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
         // Vérifier si l'utilisateur est autorisé à supprimer la sauce
-        if (sauce.userId !== req.userId) {
+        if (sauce.userId !== req.auth.userId) 
+        {
           return res.status(401).json({ message: 'Non autorisé à supprimer cette sauce.' });
         }
   
