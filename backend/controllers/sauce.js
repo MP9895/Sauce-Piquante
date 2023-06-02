@@ -1,3 +1,4 @@
+const { log } = require('console');
 const Sauce = require('../models/sauce');
 const fs = require ('fs');
 const mongooseError = require('mongoose-error');
@@ -26,7 +27,8 @@ exports.modifySauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
         // Vérifier si l'utilisateur est autorisé à modifier la sauce
-        if (sauce.userId !== req.userId) {
+        if (sauce.userId !== req.userId)
+        {
           return res.status(401).json({ message: 'Non autorisé à modifier cette sauce.' });
         }
   

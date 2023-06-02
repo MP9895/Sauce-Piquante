@@ -22,7 +22,13 @@ require('./config/db')();
 
 app.use(express.json());
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: false,
+    xDownloadOptions: false,
+  })
+);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

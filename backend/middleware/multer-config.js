@@ -14,16 +14,12 @@ const storage = multer.diskStorage({
     },
 
     filename: (req, file, callback) => {
-        let name = file.originalname.split(' ').join('-');
-        let newName = name.split('.');
-        newName.pop();
-        newName = newName.join('-');
-
+        const name = file.originalname.split(' ').join('-').split('.')[0];
         const extension = MIME_TYPES[file.mimetype];
-        callback(null, newName + '_' + Date.now() + '.' + extension);
+        callback(null, name + '_' + Date.now() + '.' + extension);
     }
 })
 
-const maxSize = 3 * 1024 * 1024;
+const maxSize = 30 * 1024 * 1024;
 
 module.exports = multer({ storage: storage, limits: { fileSize: maxSize } }).single('image');
